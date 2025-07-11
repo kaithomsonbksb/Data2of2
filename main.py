@@ -3,24 +3,24 @@ from tracemalloc import start
 
 class Card:
     """
-    docstring
+    Represents a playing card with a suit and value.
     """
     def __init__(self, suit, value):
         """
-        docstring
+        Initializes a card with a given suit and value.
         """
         self.suit = suit 
         self.value = value
     
     def __repr__(self):
         """
-        docstring
+        Returns a string representation of the card (e.g., "Ace of Spades").
         """
         return f"{self.value} of {self.suit}"
     
 class Deck:
     """
-    docstring
+    Represents a deck of 52 playing cards.
     """
     def __init__(self):
         self.cards = [Card(suit, value) for suit in ['Hearts', 'Diamonds', 'Clubs', 'Spades']
@@ -28,20 +28,20 @@ class Deck:
         
     def shuffle(self):
         """
-        docstring
+        Reverses the order of cards in the deck (simple shuffle).
         """
         # simple predictable shuffle
         self.cards = self.cards[::-1]  # Simple reverse the deck
 
     def deal(self):
         """
-        docstring
+        Removes and returns the top card from the deck.
         """
         return self.cards.pop()
     
 class Game:
     """
-    docstring
+    Manages the card game logic, including players, rounds, and funds.
     """
     def __init__(self, players, rounds, starting_funds):
         self.players = players
@@ -51,7 +51,7 @@ class Game:
     
     def play_round(self):
         """
-        docstring
+        Shuffles the deck and deals one card to each player, printing the result.
         """
         self.deck.shuffle()
         for p in range(self.players):
@@ -60,7 +60,7 @@ class Game:
     
     def start_game(self):
         """
-        docstring
+        Runs the game for the specified number of rounds, reshuffling if the deck runs out.
         """
         for r in range(self.rounds):
             print(f"Starting round {r + 1}")
@@ -71,7 +71,7 @@ class Game:
 
 def main():
     """
-    docstring
+    Handles user input and starts the game.
     """
     rounds = int(input("Enter the number of rounds: "))
     players = int(input("Enter the number of players: "))
@@ -83,3 +83,5 @@ def main():
 if __name__ == "__main__":
     main()
                 
+
+# Note: All docstrings in this file were generated using GitHub Copilot AI assistance.
