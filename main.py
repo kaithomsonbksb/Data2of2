@@ -103,18 +103,22 @@ class Game:
         self.deck.shuffle()
         round_results = []
         card_values = {
-        '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
-        'Jack': 11, 'Queen': 12, 'King': 13, 'Ace': 14
+            '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
+            'Jack': 11, 'Queen': 12, 'King': 13, 'Ace': 14
         }
         highest_val = -1
         winner = None
         bet_amount = 10
-        for player in self.players:
-            if player.funds < bet_amount:
-                continue
+
+        # Only players who can afford the bet participate
+        active_players = [p for p in self.players if p.funds >= bet_amount]
+
+        # Deduct bet
+        for player in active_players:
             player.funds -= bet_amount
-        # Deal cards
-        for player in self.players:
+
+        # Deal cards only to active players
+        for player in active_players:
             dealt_card = self.deck.deal()
             player.last_card = dealt_card
             val = card_values[dealt_card.value]
@@ -122,13 +126,22 @@ class Game:
             if val > highest_val:
                 highest_val = val
                 winner = player
-        pot = bet_amount * len([p for p in self.players if p.funds >= 0])
+
+        # Calculate pot
+        pot = bet_amount * len(active_players)
+
+        # Award pot to winner
         if winner:
             winner.score += 1
             winner.funds += pot
+
+        # Update players list to remove bankrupt players
+        self.players = [p for p in self.players if p.funds > 0]
+
+        # Prepare data for display
         scores = [(p.player_id, p.score) for p in self.players]
         funds = [(p.player_id, p.funds) for p in self.players]
-        self.players = [p for p in self.players if p.funds > 0]
+
         return round_results, winner, scores, funds
 
     def start_game(self):
