@@ -1,4 +1,4 @@
-from tracemalloc import start
+import random
 
 
 class Card:
@@ -28,10 +28,12 @@ class Deck:
         
     def shuffle(self):
         """
-        Reverses the order of cards in the deck (simple shuffle).
+        Shuffles the deck using the Fisher-Yates algorithm for randomness.
         """
-        # simple predictable shuffle
-        self.cards = self.cards[::-1]  # Simple reverse the deck
+        for i in range(len(self.cards)-1, 0, -1):
+            j = random.randint(0, i)
+            self.cards[i], self.cards[j] = self.cards[j], self.cards[i]
+
 
     def deal(self):
         """
